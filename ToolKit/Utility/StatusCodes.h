@@ -4,6 +4,7 @@ namespace StatusCodes
 	enum Code
 	{
 		SUCCESSFUL = 0,
-		SYSTEM = -1,
+		SYSTEM,
+		INVALID_ARGUMENT,
 	};
 }

@@ -24,6 +24,11 @@
   <ItemGroup>
     <ClCompile Include="Factorial.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utility\Utility.vcxproj">
+      <Project>{49186342-c47e-4f9d-9802-ee96ebeb9523}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

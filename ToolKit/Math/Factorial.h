@@ -7,4 +7,6 @@ using namespace StatusCodes;
 namespace Factorial
 {
 	Code Factorial_Recursion(unsigned long long int iNumber, unsigned long long int& iResult);
+
+	Code Factorial_Loop(unsigned long long int iNumber, unsigned long long int& iResult);
 }
