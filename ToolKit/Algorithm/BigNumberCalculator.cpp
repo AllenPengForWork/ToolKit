@@ -305,21 +305,47 @@ namespace BigNumberCalculator
 		{
 			int iLength1 = strNum1.size();
 			int iLength2 = strNum2.size();
-			string strTemp(iLength1 + iLength2, '0');
-			for (int iIndex1 = iLength1 - 1; iIndex1 >= 0; --iIndex1)
+			int iFirstNum1 = 0;
+			int iFirstNum2 = 0;
+			int iFirstNumIndex1 = 0;
+			int iFirstNumIndex2 = 0;
+			bool bIsNegativeNum1 = false;
+			bool bIsNegativeNum2 = false;
+
+			if (strNum1[0] == '-')
+			{
+				bIsNegativeNum1 = true;
+				iFirstNumIndex1 = 1;
+			}
+			iFirstNum1 = strNum1[iFirstNumIndex1] - '0';
+
+			if (strNum2[0] == '-')
+			{
+				bIsNegativeNum2 = true;
+				iFirstNumIndex2 = 1;
+			}
+			iFirstNum2 = strNum2[iFirstNumIndex2] - '0';
+
+			string strTemp((bIsNegativeNum1 ? iLength1 - 1 : iLength1) + (bIsNegativeNum2 ? iLength2 - 1 : iLength2), '0');
+			for (int iIndex1 = iLength1 - 1; iIndex1 >= iFirstNumIndex1; --iIndex1)
 			{
 				int iCarry = 0;
-				for (int iIndex2 = iLength2 - 1; iIndex2 >= 0; --iIndex2)
+				for (int iIndex2 = iLength2 - 1; iIndex2 >= iFirstNumIndex2; --iIndex2)
 				{
-					int iSum = (strNum1[iIndex1] - '0') * (strNum2[iIndex2] - '0') + (strTemp[iIndex1 + iIndex2 + 1] - '0') + iCarry;
-					strTemp[iIndex1 + iIndex2 + 1] = iSum % 10 + '0';
+					int iTempIndex = (bIsNegativeNum1 ? iIndex1 - 1 : iIndex1) + (bIsNegativeNum2 ? iIndex2 - 1 : iIndex2) + 1;
+					int iSum = (strNum1[iIndex1] - '0') * (strNum2[iIndex2] - '0') + (strTemp[iTempIndex] - '0') + iCarry;
+					strTemp[iTempIndex] = iSum % 10 + '0';
 					iCarry = iSum / 10;
 				}
-				strTemp[iIndex1] += iCarry;
-			}
+				strTemp[bIsNegativeNum1 ? iIndex1 - 1 : iIndex1] += iCarry;
+ 			}
 			while (strTemp.size() > 1 && strTemp[0] == '0')
 			{
 				strTemp.erase(0, 1);
+			}
+			if ((bIsNegativeNum1 ^= bIsNegativeNum2) && strTemp != "0")
+			{
+				strTemp = "-" + strTemp;
 			}
 			strResult = strTemp;
 		}
