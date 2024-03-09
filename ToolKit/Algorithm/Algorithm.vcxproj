@@ -160,12 +160,12 @@ IF "%strSolutionName%"=="%TOOLKIT%" (
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BigNumberCalculator.h" />
+    <ClInclude Include="BigNumberIntegerCalculator.h" />
     <ClInclude Include="Search.h" />
     <ClInclude Include="Sorting.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BigNumberCalculator.cpp" />
+    <ClCompile Include="BigNumberIntegerCalculator.cpp" />
     <ClCompile Include="Search.cpp" />
     <ClCompile Include="Sorting.cpp" />
   </ItemGroup>

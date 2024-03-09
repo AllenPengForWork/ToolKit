@@ -1,13 +1,14 @@
 #include <string>
 #include <exception>
 #include <StatusCodes.h>
+#include <StringOperator.h>
 #include <ExceptionsProcessor.h>
-#include <BigNumberCalculator.h>
+#include <BigNumberIntegerCalculator.h>
 
 using namespace std;
 using namespace StatusCodes;
 
-namespace BigNumberCalculator
+namespace BigNumberIntegerCalculator
 {
 	Code Add(string strNum1, string strNum2, string& strResult)
 	{
@@ -15,8 +16,6 @@ namespace BigNumberCalculator
 		try
 		{
 			string strTemp = "";
-			int iFirstNum1 = 0;
-			int iFirstNum2 = 0;
 			int iFirstNumIndex1 = 0;
 			int iFirstNumIndex2 = 0;
 			bool bIsNegativeNum1 = false;
@@ -27,14 +26,12 @@ namespace BigNumberCalculator
 				bIsNegativeNum1 = true;
 				iFirstNumIndex1 = 1;
 			}
-			iFirstNum1 = strNum1[iFirstNumIndex1] - '0';
 
 			if (strNum2[0] == '-')
 			{
 				bIsNegativeNum2 = true;
 				iFirstNumIndex2 = 1;
 			}
-			iFirstNum2 = strNum2[iFirstNumIndex2] - '0';
 
 			int iCarry = 0;
 			int iIndex1 = strNum1.size() - 1;
@@ -73,11 +70,11 @@ namespace BigNumberCalculator
 				}
 				if (bSwitch)
 				{
-					eCode = BigNumberCalculator::Subtract(strNum2, strNum1.substr(1, iIndex1), strTemp);
+					eCode = BigNumberIntegerCalculator::Subtract(strNum2, strNum1.substr(1, iIndex1), strTemp);
 				}
 				else
 				{
-					eCode = BigNumberCalculator::Subtract(strNum1.substr(1, iIndex1), strNum2, strTemp);
+					eCode = BigNumberIntegerCalculator::Subtract(strNum1.substr(1, iIndex1), strNum2, strTemp);
 				}
 				if (eCode != Code::SUCCESSFUL)
 				{
@@ -116,11 +113,11 @@ namespace BigNumberCalculator
 				}
 				if (bSwitch)
 				{
-					eCode = BigNumberCalculator::Subtract(strNum2.substr(1, iIndex2), strNum1, strTemp);
+					eCode = BigNumberIntegerCalculator::Subtract(strNum2.substr(1, iIndex2), strNum1, strTemp);
 				}
 				else
 				{
-					eCode = BigNumberCalculator::Subtract(strNum1, strNum2.substr(1, iIndex2), strTemp);
+					eCode = BigNumberIntegerCalculator::Subtract(strNum1, strNum2.substr(1, iIndex2), strTemp);
 				}
 				if (eCode != Code::SUCCESSFUL)
 				{
@@ -150,17 +147,6 @@ namespace BigNumberCalculator
 			{
 				strTemp = "-" + strTemp;
 			}
-			/*
-			while (iIndex1 >= 0 || iIndex2 >= 0 || iCarry > 0)
-			{
-				int iA = iIndex1 >= 0 ? strNum1[iIndex1--] - '0' : 0;
-				int iB = iIndex2 >= 0 ? strNum2[iIndex2--] - '0' : 0;
-				int iSum = iA + iB + iCarry;
-				iCarry = iSum / 10;
-				iSum %= 10;
-				strTemp = to_string(iSum) + strTemp;
-			}
-			*/
 			strResult = strTemp;
 		}
 		catch (exception clsException)
@@ -177,8 +163,6 @@ namespace BigNumberCalculator
 		try
 		{
 			string strTemp = "";
-			int iFirstNum1 = 0;
-			int iFirstNum2 = 0;
 			int iFirstNumIndex1 = 0;
 			int iFirstNumIndex2 = 0;
 			bool bIsNegativeNum1 = false;
@@ -189,14 +173,12 @@ namespace BigNumberCalculator
 				bIsNegativeNum1 = true;
 				iFirstNumIndex1 = 1;
 			}
-			iFirstNum1 = strNum1[iFirstNumIndex1] - '0';
 
 			if (strNum2[0] == '-')
 			{
 				bIsNegativeNum2 = true;
 				iFirstNumIndex2 = 1;
 			}
-			iFirstNum2 = strNum2[iFirstNumIndex2] - '0';
 
 			int iBorrow = 0;
 			int iIndex1 = strNum1.size() - 1;
@@ -204,7 +186,7 @@ namespace BigNumberCalculator
 			bool bSwitch = false;
 			if (bIsNegativeNum1 && !bIsNegativeNum2) // (-) - (+)
 			{
-				eCode = BigNumberCalculator::Add(strNum1.substr(1, iIndex1), strNum2, strTemp);
+				eCode = BigNumberIntegerCalculator::Add(strNum1.substr(1, iIndex1), strNum2, strTemp);
 				if (eCode != Code::SUCCESSFUL)
 				{
 					return eCode;
@@ -212,7 +194,7 @@ namespace BigNumberCalculator
 			}
 			else if (!bIsNegativeNum1 && bIsNegativeNum2) // (+) - (-)
 			{
-				eCode = BigNumberCalculator::Add(strNum1, strNum2.substr(1, iIndex2), strTemp);
+				eCode = BigNumberIntegerCalculator::Add(strNum1, strNum2.substr(1, iIndex2), strTemp);
 				if (eCode != Code::SUCCESSFUL)
 				{
 					return eCode;
@@ -305,8 +287,6 @@ namespace BigNumberCalculator
 		{
 			int iLength1 = strNum1.size();
 			int iLength2 = strNum2.size();
-			int iFirstNum1 = 0;
-			int iFirstNum2 = 0;
 			int iFirstNumIndex1 = 0;
 			int iFirstNumIndex2 = 0;
 			bool bIsNegativeNum1 = false;
@@ -317,14 +297,12 @@ namespace BigNumberCalculator
 				bIsNegativeNum1 = true;
 				iFirstNumIndex1 = 1;
 			}
-			iFirstNum1 = strNum1[iFirstNumIndex1] - '0';
 
 			if (strNum2[0] == '-')
 			{
 				bIsNegativeNum2 = true;
 				iFirstNumIndex2 = 1;
 			}
-			iFirstNum2 = strNum2[iFirstNumIndex2] - '0';
 
 			string strTemp((bIsNegativeNum1 ? iLength1 - 1 : iLength1) + (bIsNegativeNum2 ? iLength2 - 1 : iLength2), '0');
 			for (int iIndex1 = iLength1 - 1; iIndex1 >= iFirstNumIndex1; --iIndex1)
@@ -338,7 +316,7 @@ namespace BigNumberCalculator
 					iCarry = iSum / 10;
 				}
 				strTemp[bIsNegativeNum1 ? iIndex1 - 1 : iIndex1] += iCarry;
- 			}
+			}
 			while (strTemp.size() > 1 && strTemp[0] == '0')
 			{
 				strTemp.erase(0, 1);
@@ -363,43 +341,91 @@ namespace BigNumberCalculator
 		try
 		{
 			string strTemp = "";
+			int iFirstNumIndex1 = 0;
+			int iFirstNumIndex2 = 0;
+			string strABSNum1 = strNum1;
+			string strABSNum2 = strNum2;
+			bool bIsNegativeNum1 = false;
+			bool bIsNegativeNum2 = false;
+
+			if (strNum1[0] == '-')
+			{
+				bIsNegativeNum1 = true;
+				iFirstNumIndex1 = 1;
+				strABSNum1.erase(0, 1);
+			}
+
+			if (strNum2[0] == '-')
+			{
+				bIsNegativeNum2 = true;
+				iFirstNumIndex2 = 1;
+				strABSNum2.erase(0, 1);
+			}
+			if (strABSNum2 == "0")
+			{
+				strResult = "0";
+				eCode = Code::UNABLE_DIVIDE_ZERO;
+				return eCode;
+			}
 			int iLength1 = strNum1.size();
 			int iLength2 = strNum2.size();
-			if (iLength1 < iLength2 || (iLength1 == iLength2 && strNum1 < strNum2))
+			int iExcludeSignNumLength1 = (bIsNegativeNum1 ? iLength1 - 1 : iLength1);
+			int iExcludeSignNumLength2 = (bIsNegativeNum2 ? iLength2 - 1 : iLength2);
+			if (iExcludeSignNumLength1 < iExcludeSignNumLength2 || (iExcludeSignNumLength1 == iExcludeSignNumLength2 && strABSNum1 < strABSNum2))
 			{
 				strResult = "0";
 				return eCode;
 			}
-			string strDividend = strNum1.substr(0, iLength2);
-			for (int i = iLength2; i <= iLength1; ++i)
+			
+			string strDividend = strNum1.substr(bIsNegativeNum1 ? 1 : 0, iExcludeSignNumLength2);
+			string strDivisor = bIsNegativeNum2 ? strNum2.substr(bIsNegativeNum2, iExcludeSignNumLength2) : strNum2;
+			int iIndex = iExcludeSignNumLength2;
+			bool bContinue;
+			do
 			{
 				int iQuotient = 0;
 				while (strDividend.size() > 0 && strDividend[0] == '0')
 				{
 					strDividend.erase(0, 1);
 				}
-				while (strDividend.size() < iLength2 && i < iLength1)
+				if (strDividend.size() >= iExcludeSignNumLength2)
 				{
-					strDividend += strNum1[i++];
-					strTemp += "0";
-				}
-				if (strDividend.size() >= iLength2)
-				{
-					while (strDividend >= strNum2)
+					bool bDivisible = false;
+					do
 					{
-						eCode = Subtract(strDividend, strNum2, strDividend);
-						if (eCode != Code::SUCCESSFUL)
+						int iDividendLength = strDividend.length();
+						int iNum2Length = strDivisor.length();
+						int iLength = iDividendLength > iNum2Length ? iDividendLength : iNum2Length;
+						string strDividendTmp, strNum2Tmp;
+						StringOperator::AddLeadingZeroes(strDividend, iLength, strDividendTmp);
+						StringOperator::AddLeadingZeroes(strDivisor, iLength, strNum2Tmp);
+						bDivisible = strDividendTmp >= strNum2Tmp;
+						if (bDivisible)
 						{
-							return eCode;
+							eCode = Subtract(strDividend, strDivisor, strDividend);
+							if (eCode != Code::SUCCESSFUL)
+							{
+								return eCode;
+							}
+							++iQuotient;
 						}
-						++iQuotient;
-					}
+					} while (bDivisible);
 					strTemp += to_string(iQuotient);
 				}
-			}
+				bContinue = iIndex < iExcludeSignNumLength1;
+ 				if (bContinue)
+				{
+					strDividend += strNum1[iIndex];
+					iIndex++;
+				}
+			} while (bContinue);
 			while (strTemp.size() > 1 && strTemp[0] == '0')
 			{
 				strTemp.erase(0, 1);
+			}
+			if ((bIsNegativeNum1 ^= bIsNegativeNum2) && strTemp != "0")
+			{
+				strTemp = "-" + strTemp;
 			}
 			strResult = strTemp;
 		}
